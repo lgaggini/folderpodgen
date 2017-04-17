@@ -4,7 +4,7 @@ folderpodgen is a Python script to generate a podcast RSS from a folder of mp3 f
 
 ## Quickstart
 ```shell
-python folderpodgen.py --name mypodcast --description mypodcast --website "https://mypodcast.fm" --author_name "lgaggini"  /path/to/my/episodes
+python folderpodgen.py --name mypodcast --description mypodcast --website "https://mypodcast.fm" --author_name "lgaggini"  /path/to/my/episodes/
 ```
 ## Features
 * cli tool
