@@ -8,7 +8,7 @@ folderpodgen --name mypodcast --description mypodcast --website "https://mypodca
 ```
 ## Features
 * cli tool
-* grab episode informations from ID3 (title, date, description (from comment tag) and duration)
+* grab episode informations from ID3 (title, date (YYYY-MM-DD), description (comment tag) and duration)
 * powered by podgen and mutagen
 
 ## Install
