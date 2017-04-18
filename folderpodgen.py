@@ -53,6 +53,8 @@ def generate(name, description, website, explicit, image, author_name,
     for fpath in glob.glob('%s*.mp3' % (folder)):
         logging.info('Adding episode %s' % (fpath))
         fname = os.path.basename(fpath)
+        size = os.path.getsize(fpath)
+        logging.debug('Filename: %s, size %i' % (fname, size))
         try:
             tag = ID3(fpath)
         except ID3NoHeaderError:
@@ -61,8 +63,11 @@ def generate(name, description, website, explicit, image, author_name,
         logging.debug('Read tag: %s' % (tag))
         e = Episode()
         e.title = tag['TIT2'][0]
-        e.summary = tag['COMM::eng'][0]
-        e.media = Media('%s/%s' % (feed_url, fname))
+        if 'COMM::eng' in tag:
+            e.summary = tag['COMM::eng'][0]
+        episode_url = '%s/%s' % (feed_url, fname)
+        logging.debug('Episode url: %s' % (episode_url))
+        e.media = Media(episode_url, size, 'audio/mpeg')
         e.media.populate_duration_from(fpath)
         pubdate = datetime.strptime(tag['TDRC'][0].text, '%Y-%m-%d')
         pubdate = pubdate.replace(tzinfo=pytz.utc)
