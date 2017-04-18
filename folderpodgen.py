@@ -21,7 +21,8 @@ from mutagen.id3._util import ID3NoHeaderError
 @click.option('--author_email', help='the email of the podcast')
 @click.option('--image', help='the url of the cover image for the podcast \
               (minimun 1400x1400px, jpg or png)')
-@click.option('--feed_url', help='the url of the podcast')
+@click.option('--feed_path', default='',
+              help='the path of the podcast on website')
 @click.option('--copyright', help='copyright informations')
 @click.option('--verbose/--no-verbose', default=False,
               help='debug mode')
@@ -40,14 +41,18 @@ def generate(name, description, website, explicit, image, author_name,
     del attrs['author_name']
     del attrs['author_email']
     del attrs['verbose']
+    del attrs['feed_path']
 
     if author_name or author_email:
         attrs['authors'] = [Person(author_name, author_email)]
 
-    if not feed_url:
-        feed_url = website
 
-    logging.info('Creating podcast %s' % (name))
+    feed_name = name.lower().replace(' ', '_') + '.rss'
+    feed_base = '%s/%s' % (website, feed_path)
+    feed_url = '%s/%s' % (feed_base, feed_name)
+    attrs['feed_url'] = feed_url
+
+    logging.info('Creating podcast %s, feed %s' % (name, feed_url))
     p = Podcast(**attrs)
 
     for fpath in glob.glob('%s*.mp3' % (folder)):
@@ -65,9 +70,9 @@ def generate(name, description, website, explicit, image, author_name,
         e.title = tag['TIT2'][0]
         if 'COMM::eng' in tag:
             e.summary = tag['COMM::eng'][0]
-        episode_url = '%s/%s' % (feed_url, fname)
+        episode_url = '%s/%s' % (feed_base, fname)
         logging.debug('Episode url: %s' % (episode_url))
-        e.media = Media(episode_url, size, 'audio/mpeg')
+        e.media = Media(episode_url, size, type='audio/mpeg')
         e.media.populate_duration_from(fpath)
         pubdate = datetime.strptime(tag['TDRC'][0].text, '%Y-%m-%d')
         pubdate = pubdate.replace(tzinfo=pytz.utc)
@@ -75,9 +80,9 @@ def generate(name, description, website, explicit, image, author_name,
         e.link = '%s/%s' % (website, fname)
         p.episodes.append(e)
 
-    feed_path = '%s%s.rss' % (folder, name.lower().replace(' ', '_'))
-    logging.info('Generating feed in %s' % (feed_path))
-    p.rss_file(feed_path, minimize=True)
+    feed_local_path = '%s%s' % (folder, feed_name)
+    logging.info('Generating feed in %s' % (feed_local_path))
+    p.rss_file(feed_local_path, minimize=False)
 
 
 if __name__ == '__main__':
