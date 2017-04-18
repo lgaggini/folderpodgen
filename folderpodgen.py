@@ -4,7 +4,7 @@ import os
 import logging
 import pytz
 from datetime import datetime
-from podgen import Podcast, Episode, Media, Person
+from podgen import Podcast, Episode, Media, Person, Category
 from mutagen.id3 import ID3
 from mutagen.id3._util import ID3NoHeaderError
 
@@ -24,11 +24,16 @@ from mutagen.id3._util import ID3NoHeaderError
 @click.option('--feed_path', default='',
               help='the path of the podcast on website')
 @click.option('--copyright', help='copyright informations')
+@click.option('--language', default='en-EN',
+              help='podcast language in ISO-639')
+@click.option('--category', default='Music',
+              help='podcast category')
 @click.option('--verbose/--no-verbose', default=False,
               help='debug mode')
 @click.argument('folder')
 def generate(name, description, website, explicit, image, author_name,
-             author_email, feed_url, copyright, verbose, folder):
+             author_email, feed_path, copyright, language, category,
+             verbose, folder):
     """Generate a podcast from mp3 files located in the provided FOLDER"""
     if verbose:
         logging.basicConfig(level=logging.DEBUG)
@@ -45,7 +50,9 @@ def generate(name, description, website, explicit, image, author_name,
 
     if author_name or author_email:
         attrs['authors'] = [Person(author_name, author_email)]
+        attrs['owner'] = attrs['authors'][0]
 
+    attrs['category'] = Category(category)
 
     feed_name = name.lower().replace(' ', '_') + '.rss'
     feed_base = '%s/%s' % (website, feed_path)
