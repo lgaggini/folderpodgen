@@ -70,8 +70,9 @@ def generate(name, description, website, explicit, image, author_name,
         e.link = '%s/%s' % (website, fname)
         p.episodes.append(e)
 
-    logging.info('Generating feed')
-    p.rss_file('%s%s.rss' % (folder, name), minimize=True)
+    feed_path = '%s%s.rss' % (folder, name.lower().replace(' ', '_'))
+    logging.info('Generating feed in %s' % (feed_path))
+    p.rss_file(feed_path, minimize=True)
 
 
 if __name__ == '__main__':
