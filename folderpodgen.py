@@ -62,7 +62,7 @@ def generate(name, description, website, explicit, image, author_name,
     logging.info('Creating podcast %s, feed %s' % (name, feed_url))
     p = Podcast(**attrs)
 
-    for fpath in glob.glob('%s*.mp3' % (folder)):
+    for fpath in sorted(glob.glob('%s*.mp3' % (folder))):
         logging.info('Adding episode %s' % (fpath))
         fname = os.path.basename(fpath)
         size = os.path.getsize(fpath)
