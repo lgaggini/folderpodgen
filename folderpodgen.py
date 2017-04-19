@@ -28,12 +28,16 @@ from mutagen.id3._util import ID3NoHeaderError
               help='podcast language in ISO-639')
 @click.option('--category', default='Music',
               help='podcast category')
+@click.option('--blog/--blog', default=False,
+              help='try to guess episode blog post')
+@click.option('--blog_path', default='',
+              help='path to blog posts')
 @click.option('--verbose/--no-verbose', default=False,
               help='debug mode')
 @click.argument('folder')
 def generate(name, description, website, explicit, image, author_name,
              author_email, feed_path, copyright, language, category,
-             verbose, folder):
+             blog, blog_path, verbose, folder):
     """Generate a podcast from mp3 files located in the provided FOLDER"""
     if verbose:
         logging.basicConfig(level=logging.DEBUG)
@@ -47,6 +51,8 @@ def generate(name, description, website, explicit, image, author_name,
     del attrs['author_email']
     del attrs['verbose']
     del attrs['feed_path']
+    del attrs['blog']
+    del attrs['blog_path']
 
     if author_name or author_email:
         attrs['authors'] = [Person(author_name, author_email)]
@@ -84,7 +90,8 @@ def generate(name, description, website, explicit, image, author_name,
         pubdate = datetime.strptime(tag['TDRC'][0].text, '%Y-%m-%d')
         pubdate = pubdate.replace(tzinfo=pytz.utc)
         e.publication_date = pubdate
-        e.link = '%s/%s' % (website, fname)
+        blog_post = fname.replace('.mp3', '.html').replace('_', '-')
+        e.link = '%s/%s/%s' % (website, blog_path, blog_post)
         p.episodes.append(e)
 
     feed_local_path = '%s%s' % (folder, feed_name)
