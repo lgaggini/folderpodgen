@@ -3,6 +3,7 @@ import glob
 import os
 import logging
 import pytz
+import re
 from datetime import datetime
 from podgen import Podcast, Episode, Media, Person, Category
 from mutagen.id3 import ID3
@@ -28,7 +29,7 @@ from mutagen.id3._util import ID3NoHeaderError
               help='podcast language in ISO-639')
 @click.option('--category', default='Music',
               help='podcast category')
-@click.option('--blog/--blog', default=False,
+@click.option('--blog/--no-blog', default=False,
               help='try to guess episode blog post')
 @click.option('--blog_path', default='',
               help='path to blog posts')
@@ -90,8 +91,13 @@ def generate(name, description, website, explicit, image, author_name,
         pubdate = datetime.strptime(tag['TDRC'][0].text, '%Y-%m-%d')
         pubdate = pubdate.replace(tzinfo=pytz.utc)
         e.publication_date = pubdate
-        blog_post = fname.replace('.mp3', '.html').replace('_', '-')
-        e.link = '%s/%s/%s' % (website, blog_path, blog_post)
+        if blog:
+            blog_post = ''
+            short_name = re.search('[a-z]*_-_([a-z_]*[#0-9]*)', fname)
+            if short_name:
+                blog_post = short_name.group(1).replace('_', '-').\
+                    replace('#', '') + '.html'
+                e.link = '%s/%s/%s' % (website, blog_path, blog_post)
         p.episodes.append(e)
 
     feed_local_path = '%s%s' % (folder, feed_name)
