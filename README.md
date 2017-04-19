@@ -39,8 +39,12 @@ Options:
   --author_email TEXT         the email of the podcast
   --image TEXT                the url of the cover image for the podcast
                               (minimun 1400x1400px, jpg or png)
-  --feed_url TEXT             the url of the podcast
+  --feed_path TEXT            the path of the podcast on website
   --copyright TEXT            copyright informations
+  --language TEXT             podcast language in ISO-639
+  --category TEXT             podcast category
+  --blog / --no-blog          try to guess episode blog post
+  --blog_path TEXT            path to blog posts
   --verbose / --no-verbose    debug mode
   --help                      Show this message and exit.
 ```
