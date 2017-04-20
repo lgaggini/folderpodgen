@@ -82,7 +82,7 @@ def generate(name, description, website, explicit, image, author_name,
         logging.debug('Read tag: %s' % (tag))
         e = Episode()
         if 'TPE1' in tag:
-	    e.authors = Person(tag['TPE1'])
+	    e.authors = Person(tag['TPE1'][0])
 	else:
 	    e.authors = attrs['authors']
         e.title = tag['TIT2'][0]
