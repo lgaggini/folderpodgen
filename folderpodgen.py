@@ -86,7 +86,8 @@ def generate(name, description, website, explicit, image, author_name,
 	else:
 	    e.authors = attrs['authors']
         e.title = tag['TIT2'][0]
-	if 'COMM::eng' in tag:
+	e.subtitle = e.title 
+        if 'COMM::eng' in tag:
             e.summary = tag['COMM::eng'][0]
         else:
 	    e.summary = description
