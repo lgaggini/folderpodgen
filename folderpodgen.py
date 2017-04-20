@@ -18,7 +18,8 @@ from mutagen.id3._util import ID3NoHeaderError
               help='the url of the website of the podcast')
 @click.option('--explicit/--no-explicit', default=False,
               help='is the podcast explicit?')
-@click.option('--author_name', help='the authors of the podcast')
+@click.option('--author_name', required=True,
+              help='the authors of the podcast')
 @click.option('--author_email', help='the email of the podcast')
 @click.option('--image', help='the url of the cover image for the podcast \
               (minimun 1400x1400px, jpg or png)')
@@ -55,9 +56,8 @@ def generate(name, description, website, explicit, image, author_name,
     del attrs['blog']
     del attrs['blog_path']
 
-    if author_name or author_email:
-        attrs['authors'] = [Person(author_name, author_email)]
-        attrs['owner'] = attrs['authors'][0]
+    attrs['authors'] = [Person(author_name, author_email)]
+    attrs['owner'] = attrs['authors'][0]
 
     attrs['category'] = Category(category)
 
@@ -81,8 +81,12 @@ def generate(name, description, website, explicit, image, author_name,
             continue
         logging.debug('Read tag: %s' % (tag))
         e = Episode()
+        if 'TPE1' in tag:
+	    e.authors = Person(tag['TPE1'])
+	else
+	    e.authors = attrs['authors']
         e.title = tag['TIT2'][0]
-        if 'COMM::eng' in tag:
+	if 'COMM::eng' in tag:
             e.summary = tag['COMM::eng'][0]
         episode_url = '%s/%s' % (feed_base, fname)
         logging.debug('Episode url: %s' % (episode_url))
