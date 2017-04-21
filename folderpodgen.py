@@ -82,16 +82,16 @@ def generate(name, description, website, explicit, image, author_name,
         logging.debug('Read tag: %s' % (tag))
         e = Episode()
         if 'TPE1' in tag:
-	    e.authors = [Person(tag['TPE1'][0])]
-	else:
-	    e.authors = attrs['authors']
+            e.authors = [Person(tag['TPE1'][0])]
+        else:
+            e.authors = attrs['authors']
         e.title = tag['TIT2'][0]
-	e.subtitle = e.title 
+        e.subtitle = e.title
         if 'COMM::eng' in tag:
             e.summary = tag['COMM::eng'][0]
         else:
-	    e.summary = description
-	episode_url = '%s/%s' % (feed_base, fname)
+            e.summary = description
+        episode_url = '%s/%s' % (feed_base, fname)
         logging.debug('Episode url: %s' % (episode_url))
         e.media = Media(episode_url, size, type='audio/mpeg')
         e.media.populate_duration_from(fpath)
