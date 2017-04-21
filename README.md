@@ -8,7 +8,12 @@ folderpodgen --name mypodcast --description mypodcast --website "https://mypodca
 ```
 ## Features
 * cli tool
-* grab episode informations from ID3 (title, date (YYYY-MM-DD), description (comment tag) and duration)
+* grabs episode informations from ID3:
+    * artist -> artist
+    * title -> title and subtitle
+    * date (YYYY-MM-DD) -> publication date
+    * comment -> description
+    * duration -> duration
 * powered by podgen and mutagen
 
 ## Install
@@ -21,7 +26,7 @@ python2 setup.py install
 pip package to come.
 
 ## Status
-Beta version 0.1.0, manual tested on a medium tests set.
+Beta version 0.2.0.
 
 ## Documentation
 ```shell
@@ -35,7 +40,7 @@ Options:
   --website TEXT              the url of the website of the podcast
                               [required]
   --explicit / --no-explicit  is the podcast explicit?
-  --author_name TEXT          the authors of the podcast
+  --author_name TEXT          the authors of the podcast  [required]
   --author_email TEXT         the email of the podcast
   --image TEXT                the url of the cover image for the podcast
                               (minimun 1400x1400px, jpg or png)

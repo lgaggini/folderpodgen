@@ -5,7 +5,7 @@ with open('README.md') as file:
 
 setup(
     name='folderpodgen',
-    version='0.1',
+    version='0.2',
     author_email='lg@lgaggini.net',
     url='https://github.com/lgaggini/drowse',
     license='LICENSE',
