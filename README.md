@@ -1,6 +1,6 @@
 # folderpodgen
 
-folderpodgen is a Python script to generate a podcast RSS from a folder of mp3 files powered by [podgen](https://github.com/tobinus/python-podgen) and [mutagen](https://raw.githubusercontent.com/github/gitignore/master/Python.gitignore).
+folderpodgen is a Python script to generate a podcast RSS from a folder of mp3 files powered by [podgen](https://github.com/tobinus/python-podgen) and [mutagen](https://github.com/quodlibet/mutagen).
 
 ## Quickstart
 ```shell
