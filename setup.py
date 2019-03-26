@@ -7,7 +7,7 @@ setup(
     name='folderpodgen',
     version='0.2',
     author_email='lg@lgaggini.net',
-    url='https://github.com/lgaggini/drowse',
+    url='https://github.com/lgaggini/folderpodgen',
     license='LICENSE',
     py_modules=['folderpodgen'],
     keywords=['PODCAST', 'MP3', 'RSS'],
