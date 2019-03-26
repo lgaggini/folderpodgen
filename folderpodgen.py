@@ -95,7 +95,7 @@ def generate(name, description, website, explicit, image, author_name,
         logging.debug('Episode url: %s' % (episode_url))
         e.media = Media(episode_url, size, type='audio/mpeg')
         e.media.populate_duration_from(fpath)
-        pubdate = datetime.strptime(tag['TDRC'][0].text, '%Y-%m-%d')
+        pubdate = datetime.strptime(tag['TDRC'][0].text[:10], '%Y-%m-%d')
         pubdate = pubdate.replace(tzinfo=pytz.utc)
         e.publication_date = pubdate
         if blog:
