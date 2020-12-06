@@ -20,7 +20,7 @@ folderpodgen --name mypodcast --description mypodcast --website "https://mypodca
 ```
 git clone https://github.com/lgaggini/folderpodgen
 cd folderpodgen
-python2 setup.py install
+python setup.py install
 ```
 
 pip package to come.
