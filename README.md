@@ -8,11 +8,11 @@ folderpodgen --name mypodcast --description mypodcast --website "https://mypodca
 ```
 ## Features
 * cli tool
-* grabs episode informations from ID3:
-    * artist -> artist
-    * title -> title and subtitle
-    * date (YYYY-MM-DD) -> publication date
-    * comment -> description
+* grabs episode informations from ID3v2.4:
+    * artist ('TPE1') -> artist
+    * title ('TIT2') -> title and subtitle
+    * date ('TDRC', YYYY-MM-DD) -> publication date
+    * comment('COMM::eng') -> description
     * duration -> duration
 * powered by podgen and mutagen
 
