@@ -3,7 +3,7 @@ chardet==3.0.4
 click==8.0.0a1
 dateutils==0.6.12
 folderpodgen==0.2
-future==0.18.2
+future==0.18.3
 idna==2.10
 lxml==4.9.1
 mutagen==1.45.1
